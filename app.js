@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -9,8 +10,9 @@ const blogRoute = require("./routes/blog");
 const Blog = require("./models/blog");
 
 const app = express();
+const PORT = 8000 || process.env.PORT;
 
-mongoose.connect("mongodb://127.0.0.1:27017/blogKaro").then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
   console.log("mongoDB connected");
 });
 
@@ -35,6 +37,8 @@ app.get("/", async (req, res) => {
 app.use("/user", userRouter);
 app.use("/blog", blogRoute);
 
-app.listen(4000, () => {
+app.listen(PORT, () => {
   console.log("server started");
 });
+
+
